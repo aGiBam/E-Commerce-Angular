@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from './Services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -7,31 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  registerForm: FormGroup = new FormGroup({
-    name: new FormControl(null, [
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(8),
-    ]),
-    email: new FormControl(null, [
-      Validators.required,
-      Validators.email,
-      Validators.minLength(5),
-      Validators.maxLength(20),
-    ]),
-    password: new FormControl(null, [
-      Validators.required,
-      Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
-    ]),
-    rePassword: new FormControl(null, [
-      Validators.required,
-      Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
-    ]),
-    phone: new FormControl(null, [
-      Validators.required,
-      Validators.pattern(/^(01)[125][0-9]{8}$/),
-    ]),
-  });
+  errorMessage!: string;
 
   registerForm: FormGroup = new FormGroup(
     {
@@ -57,12 +34,18 @@ export class RegisterComponent {
     this.validatePassword
   );
 
-
   registerSubmit(rForm: FormGroup) {
-    console.log(rForm);
+    this._AuthService.sendRegister(rForm.value).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) => {
+        this.errorMessage = err.error.message;
+      },
+    });
   }
 
-
+  constructor(private _AuthService: AuthService) {}
 
   validatePassword(g: any) {
     return g.get('password').value === g.get('rePassword').value
