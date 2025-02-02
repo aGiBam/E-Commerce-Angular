@@ -1,4 +1,6 @@
 <div class="w-75 my-5 mx-auto">
+<h1 class="alert alert-danger text-center " *ngIf="errorMessage">{{errorMessage}}</h1>
+
 <h2 class="mb-3">Register Now :</h2>
 <form (ngSubmit)="registerSubmit(registerForm)" [formGroup]="registerForm">
   <div>
