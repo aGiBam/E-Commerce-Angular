@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from './Services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -62,7 +63,7 @@ export class RegisterComponent {
   registerSubmit(rForm: FormGroup) {
     this._AuthService.sendRegister(rForm.value).subscribe({
       next: (res) => {
-        console.log(res);
+        this._Router.navigate(['/login']);
       },
       error: (err) => {
         this.errorMessage = err.error.message;
@@ -70,7 +71,7 @@ export class RegisterComponent {
     });
   }
 
-  constructor(private _AuthService: AuthService) {}
+  constructor(private _AuthService: AuthService, private _Router:Router) {}
 
   validatePassword(g: any) {
     return g.get('password').value === g.get('rePassword').value
