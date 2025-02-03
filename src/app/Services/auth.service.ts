@@ -9,6 +9,10 @@ interface registerInterface {
   rePassword: string;
   phone: string;
 }
+interface loginInterface {
+  email: string;
+  password: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +26,12 @@ export class AuthService {
     return this._HttpClient.post(
       this.baseUrl + '/api/v1/auth/signup',
       registerData
+    );
+  }
+  sendLogin(loginData: loginInterface): Observable<any> {
+    return this._HttpClient.post(
+      this.baseUrl + '/api/v1/auth/signin',
+      loginData
     );
   }
 }
