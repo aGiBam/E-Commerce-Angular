@@ -15,16 +15,30 @@ export class LoginComponent {
     email: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, [
       Validators.required,
-      Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
+      // Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
     ]),
   });
-  private _Router: any;
-  private _AuthService: any;
+  private _Router: Router;
+  private _AuthService: AuthService;
+
+  constructor(private authService: AuthService, private router: Router) {
+    this._AuthService = authService;
+    this._Router = router;
+  }
 
   loginSubmit(rForm: FormGroup) {
     this._AuthService.sendLogin(rForm.value).subscribe({
       next: (res: any) => {
-        this._Router.navigate(['/login']);
+        //if everything is ok (status, user, token) = login
+        //1-route to home page
+        //2- save token in local storage
+        //3- save user in local storage
+
+        if (res.message === 'success') {
+          this._Router.navigate(['/home']);
+          localStorage.setItem('userToken', res.token);
+          this._AuthService.saveData();
+        }
       },
       error: (err: any) => {
         this.errorMessage = err.error.message;
@@ -32,6 +46,4 @@ export class LoginComponent {
       },
     });
   }
-
-  // constructor(private _AuthService: AuthService, private _Router:Router) {}
 }
