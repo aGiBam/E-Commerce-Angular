@@ -10,7 +10,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'register', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path:'register', component: RegisterComponent },
   { path:'login', component: LoginComponent },
   { path:'home', component: HomeComponent },
