@@ -53,4 +53,12 @@ export class RegisterComponent {
       ? null
       : { notSame: true };
   }
+
+
+
+  validatePassword(g: any) {
+    return g.get('password').value === g.get('rePassword').value
+      ? null
+      : { notSame: true };
+  }
 }
